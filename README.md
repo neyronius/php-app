@@ -6,4 +6,8 @@ A php application
 * Vagrant
 * phpunit
 * Ansible
-
+* Redis
+* rabbitmq
+* api
+* modules
+* cli
