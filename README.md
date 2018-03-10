@@ -11,3 +11,5 @@ A php application
 * api
 * modules
 * cli
+* stylecheck
+* elastic search
