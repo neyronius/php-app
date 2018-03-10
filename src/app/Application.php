@@ -58,7 +58,9 @@ class Application
             }
         }
 
-        $response = call_user_func($route->handler, DI()->get(RequestInterface::class));
+        DI()->call($route->handler);
+
+        //$response = call_user_func($route->handler, DI()->get(RequestInterface::class));
 
         /** @var Response $response */
 

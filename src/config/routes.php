@@ -15,3 +15,5 @@ $map->get('home', '/', function(RequestInterface $request) {
 
     return $response;
 });
+
+$map->get('login.show', '/login', [\App\Users\Controllers\Login::class, 'show']);

@@ -40,11 +40,20 @@ ob_start(); ?>
 
 echo "Creating virtual host directory" . PHP_EOL;
 
-if (!file_exists(VHOST_DOCUMENT_ROOT)
-    && !mkdir(VHOST_DOCUMENT_ROOT, 0766, true)
-    && !is_dir(VHOST_DOCUMENT_ROOT)) {
-    die("Can't create directory " . VHOST_DOCUMENT_ROOT);
-}
+
+//if (!file_exists(VHOST_DOCUMENT_ROOT)
+//    && !mkdir(VHOST_DOCUMENT_ROOT, 0777 , true)
+//    && !is_dir(VHOST_DOCUMENT_ROOT)) {
+//    die("Can't create directory " . VHOST_DOCUMENT_ROOT);
+//}
+
+echo shell_exec("sudo mkdir -p " . VHOST_DOCUMENT_ROOT);
+echo shell_exec("sudo chown vagrant:vagrant -R " . VHOST_PATH);
+
+echo shell_exec("find " . VHOST_PATH . " -type d -exec chmod 755 {} \;");
+echo shell_exec("find " . VHOST_PATH . " -type f -exec chmod 644 {} \;");
+
+
 
 echo 'Done' . PHP_EOL .  PHP_EOL;
 
