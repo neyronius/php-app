@@ -6,6 +6,7 @@ namespace App;
 use Aura\Router\RouterContainer;
 use Dotenv\Dotenv;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;
 
 class Application
@@ -31,15 +32,29 @@ class Application
 
         $this->loadRoutes();
 
-        $this->dispatch();
+        DI()->call([$this, 'dispatch']);
+
     }
 
-    public function dispatch()
+    public function dispatch(RouterContainer $routerContainer, RequestInterface $request)
     {
-        $matcher = DI()->get(RouterContainer::class)->getMatcher();
-        $route = $matcher->match(DI()->get(RequestInterface::class));
+        $matcher = $routerContainer->getMatcher();
+        $route = $matcher->match($request);
 
-        if (! $route) {
+        if($route){
+	        $answer = DI()->call($route->handler);
+
+	        if($answer instanceof ResponseInterface){
+				$response = $answer;
+	        }elseif(is_scalar($answer)){
+		        $response = new Response('php://memory', 200);
+		        $response->getBody()->write($answer);
+	        }else{
+	        	throw new \RuntimeException("Invalid controller answer");
+	        }
+
+        }else {
+
             // get the first of the best-available non-matched routes
             $failedRoute = $matcher->getFailedRoute();
 
@@ -54,13 +69,10 @@ class Application
                     break;
                 default:
                     // 404 NOT FOUND
+					$response = new Response('php://memory', 404);
                     break;
             }
         }
-
-        DI()->call($route->handler);
-
-        //$response = call_user_func($route->handler, DI()->get(RequestInterface::class));
 
         /** @var Response $response */
 

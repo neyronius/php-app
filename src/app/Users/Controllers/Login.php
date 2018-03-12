@@ -10,20 +10,24 @@ class Login
 {
 
 	/**
+	 * @Inject
 	 * @var RequestInterface
 	 */
 	protected $request;
 
 	/**
+	 * @Inject
 	 * @var ResponseInterface
 	 */
-	protected $response;
+	//protected $response;
 
 	public function show()
 	{
-		$this->response->getBody()->write("Login.Show");
+		//$this->response->getBody()->write("Login.Show");
 
-		return $this->response;
+		//return $this->response;
+
+		return 'Test';
 	}
 
 	public function tryToLogin()

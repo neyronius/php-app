@@ -14,6 +14,7 @@ function DI()
     if($container === null){
         $builder = new DI\ContainerBuilder();
         $builder->addDefinitions(__DIR__ . '/di.php');
+	    $builder->useAnnotations(true);
         $container = $builder->build();
     }
 
