@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vladislav
- * Date: 13.03.2018
- * Time: 15:33
- */
+
 
 namespace Neyronius\Base\Events;
 
@@ -22,8 +17,7 @@ class EventsManager
      */
     public function subscribe(string $eventClass, callable $callback)
     {
-
-        if(!$this->eventStore[$eventClass]){
+        if (!$this->eventStore[$eventClass]) {
             $this->eventStore[$eventClass] = [];
         }
 
@@ -38,15 +32,15 @@ class EventsManager
      */
     public function unsubscribe(string $eventClass, callable $callback = null)
     {
-        if(!$this->eventStore[$eventClass]){
+        if (!$this->eventStore[$eventClass]) {
             throw new \InvalidArgumentException("There is no callbacks for the event " . $eventClass);
         }
 
-        if($callback === null){
+        if ($callback === null) {
             $this->eventStore[$eventClass] = [];
-        }else{
-            foreach ($this->eventStore[$eventClass] as $k => $cb){
-                if($cb === $callback){
+        } else {
+            foreach ($this->eventStore[$eventClass] as $k => $cb) {
+                if ($cb === $callback) {
                     unset($this->eventStore[$eventClass][$k]);
                 }
             }
@@ -62,12 +56,11 @@ class EventsManager
     {
         $eventClass = get_class($event);
 
-        if(isset($this->eventStore[$eventClass])){
-            foreach ($this->eventStore[$eventClass] as $cb){
+        if (isset($this->eventStore[$eventClass])) {
+            foreach ($this->eventStore[$eventClass] as $cb) {
                 DI()->call($cb, ['event' => $event]);
             }
         }
-
     }
 
 }

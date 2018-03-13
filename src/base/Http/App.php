@@ -36,7 +36,7 @@ abstract class App
     public function __construct(EventsManager $em)
     {
         $this->eventsManager = $em;
-        $this->eventsManager->subscribe(SendResponseAndShutDown::class, function(SendResponseAndShutDown $event){
+        $this->eventsManager->subscribe(SendResponseAndShutDown::class, function (SendResponseAndShutDown $event) {
             $this->sendResponse($event->getResponse());
             $this->shutDown();
         });

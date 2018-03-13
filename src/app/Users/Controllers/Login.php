@@ -60,26 +60,26 @@ class Login extends Base
      * @return string
      */
     public function show()
-	{
+    {
         $this->notLoggedIn();
 
 
-		return $this->tpl->render('users::login', []);
-	}
+        return $this->tpl->render('users::login', []);
+    }
 
-	public function tryToLogin()
-	{
+    public function tryToLogin()
+    {
 
-	}
+    }
 
     /**
      * Check if the user is logged in. If yes, then redirect to home
      *
      * @throws \Aura\Router\Exception\RouteNotFound
      */
-	protected function notLoggedIn()
+    protected function notLoggedIn()
     {
-        if($this->auth->isLoggedIn()){
+        if ($this->auth->isLoggedIn()) {
             $this->responseService->redirect($this->routerContainer->getGenerator()->generate('home'));
         }
     }

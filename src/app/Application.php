@@ -20,7 +20,7 @@ class Application extends App
     {
         $this->loadConfiguration();
 
-        if(APP_ENV !== self::ENV_LIVE){
+        if (APP_ENV !== self::ENV_LIVE) {
             $this->registerPrettyErrorHandler();
         }
 
@@ -33,19 +33,19 @@ class Application extends App
         $matcher = $routerContainer->getMatcher();
         $route = $matcher->match($request);
 
-        if($route){
-	        $answer = DI()->call($route->handler);
+        if ($route) {
+            $answer = DI()->call($route->handler);
 
-	        if($answer instanceof ResponseInterface){
-				$response = $answer;
-	        }elseif(is_scalar($answer)){
-		        $response = new Response('php://memory', 200);
-		        $response->getBody()->write($answer);
-	        }else{
-	        	throw new \RuntimeException("Invalid controller answer");
-	        }
+            if ($answer instanceof ResponseInterface) {
+                $response = $answer;
+            } elseif (is_scalar($answer)) {
+                $response = new Response('php://memory', 200);
+                $response->getBody()->write($answer);
+            } else {
+                throw new \RuntimeException("Invalid controller answer");
+            }
 
-        }else {
+        } else {
 
             // get the first of the best-available non-matched routes
             $failedRoute = $matcher->getFailedRoute();
@@ -63,7 +63,7 @@ class Application extends App
                     break;
                 default:
                     // 404 NOT FOUND
-					$response = DI()->get('NotFoundResponse');
+                    $response = DI()->get('NotFoundResponse');
                     break;
             }
         }
@@ -100,13 +100,13 @@ class Application extends App
 
         define('APP_ENV', env('APP_ENV') ?: self::ENV_LIVE);
 
-        if(!in_array(APP_ENV, $this->getAllowedEnvironments(), true)){
+        if (!in_array(APP_ENV, $this->getAllowedEnvironments(), true)) {
             die('Invalid environment');
         }
 
         $configFileName = SRC_ROOT . '/config/env/' . APP_ENV . '.php';
 
-        if(file_exists($configFileName)){
+        if (file_exists($configFileName)) {
             require $configFileName;
         }
     }
