@@ -2,6 +2,13 @@
     "name": "neyronius/php-app",
     "description": "Basic php app",
     "type": "project",
+
+    "config": {
+        "platform": {
+            "php": "7.1"
+        }
+    },
+
     "require": {
         "php-di/php-di": "^6.0",
         "ocramius/proxy-manager": "^2.1",
@@ -9,20 +16,28 @@
         "vlucas/phpdotenv": "^2.4",
         "oscarotero/env": "^1.1",
         "aura/router": "^3.1",
-        "doctrine/annotations": "^1.6"
+        "doctrine/annotations": "^1.6",
+        "league/plates": "^3.3",
+        "delight-im/auth": "^7.5",
+        "aura/sql": "@beta",
+        "robmorgan/phinx": "^0.9.2"
     },
+
     "require-dev": {
         "phpunit/phpunit": "^7.0",
         "filp/whoops": "^2.1",
         "kint-php/kint": "^2.2"
     },
+
     "license": "MIT",
+
     "authors": [
         {
             "name": "Vladislav Samokhin",
             "email": "neyronius@gmail.com"
         }
     ],
+
     "minimum-stability": "stable",
 
     "autoload": {

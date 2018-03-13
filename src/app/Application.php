@@ -2,25 +2,19 @@
 
 namespace App;
 
-
 use Aura\Router\RouterContainer;
 use Dotenv\Dotenv;
-use Psr\Http\Message\RequestInterface;
+use Neyronius\Base\Http\App;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response;
 
-class Application
+class Application extends App
 {
     const ENV_LIVE = 'live';
     const ENV_DEV = 'dev';
     const ENV_STAGE = 'stage';
     const ENV_TEST = 'test';
-
-
-    public function __construct()
-    {
-
-    }
 
     public function run()
     {
@@ -30,13 +24,11 @@ class Application
             $this->registerPrettyErrorHandler();
         }
 
-        $this->loadRoutes();
-
+        DI()->call([$this, 'loadRoutes']);
         DI()->call([$this, 'dispatch']);
-
     }
 
-    public function dispatch(RouterContainer $routerContainer, RequestInterface $request)
+    public function dispatch(RouterContainer $routerContainer, ServerRequestInterface $request)
     {
         $matcher = $routerContainer->getMatcher();
         $route = $matcher->match($request);
@@ -63,31 +55,23 @@ class Application
                 case 'Aura\Router\Rule\Allows':
                     // 405 METHOD NOT ALLOWED
                     // Send the $failedRoute->allows as 'Allow:'
+                    throw new \Exception("To be implemented");
                     break;
                 case 'Aura\Router\Rule\Accepts':
                     // 406 NOT ACCEPTABLE
+                    throw new \Exception("To be implemented");
                     break;
                 default:
                     // 404 NOT FOUND
-					$response = new Response('php://memory', 404);
+					$response = DI()->get('NotFoundResponse');
                     break;
             }
         }
 
-        /** @var Response $response */
-
-        ob_start();
-
-        foreach ($response->getHeaders() as $name => $values) {
-            foreach ($values as $value) {
-                header(sprintf('%s: %s', $name, $value), false);
-            }
-        }
-        http_response_code($response->getStatusCode());
-        echo $response->getBody();
-
-        echo ob_get_clean();
+        $this->sendResponse($response);
+        $this->shutDown();
     }
+
 
     public function registerPrettyErrorHandler()
     {
@@ -140,13 +124,14 @@ class Application
     /**
      * Load routes configuration
      *
+     *
+     *
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      * @throws \Exception
      */
-    public function loadRoutes()
+    public function loadRoutes(RouterContainer $routerContainer)
     {
-        $routerContainer = DI()->get(RouterContainer::class);
         $map = $routerContainer->getMap();
         require SRC_ROOT . '/config/routes.php';
     }

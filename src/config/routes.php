@@ -1,11 +1,11 @@
 <?php
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /** @var \Aura\Router\Map $map */
 
-$map->get('home', '/', function(RequestInterface $request) {
+$map->get('home', '/', function(ServerRequestInterface $request) {
 
     $response = DI()->get(ResponseInterface::class);
     /** @var \Zend\Diactoros\Response $response */
