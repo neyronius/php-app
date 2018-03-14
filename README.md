@@ -11,3 +11,5 @@ A php application
 * cli
 * stylecheck
 * elastic search
+
+* adapters for auth, router, session

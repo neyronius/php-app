@@ -41,10 +41,10 @@ class ResponseService
      */
     public function redirect($url)
     {
-        $this->response = $this->response->withHeader('Location', $url)->withStatus(302);
+        $response = $this->response->withHeader('Location', $url)->withStatus(302);
 
         $event = new SendResponseAndShutDown();
-        $event->setResponse($this->response);
+        $event->setResponse($response);
 
         $this->eventsManager->publish($event);
     }

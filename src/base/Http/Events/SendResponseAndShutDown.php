@@ -13,6 +13,11 @@ class SendResponseAndShutDown extends Event
      */
     protected $response = null;
 
+	/**
+	 *
+	 * @todo Implement as fabric method
+	 * @param ResponseInterface $response
+	 */
     public function setResponse(ResponseInterface $response)
     {
         $this->response = $response;
