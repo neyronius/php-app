@@ -47,8 +47,14 @@ function create()
 
     echo "Creating virtual host directory" . PHP_EOL;
 
-    echo shell_exec("sudo mkdir -p " . VHOST_DOCUMENT_ROOT);
+    echo shell_exec("sudo rm -rf " . VHOST_PATH);
+    echo shell_exec("sudo mkdir -p " . VHOST_PATH);
     echo shell_exec("sudo chown vagrant:vagrant -R " . VHOST_PATH);
+
+    echo "Cloning repo" . PHP_EOL;
+    chdir(VHOST_PATH);
+    echo shell_exec("git clone " . GIT_URL . ' .');
+    echo 'Done' . PHP_EOL .  PHP_EOL;
 
     echo shell_exec("find " . VHOST_PATH . " -type d -exec chmod 755 {} \;");
     echo shell_exec("find " . VHOST_PATH . " -type f -exec chmod 644 {} \;");
@@ -56,9 +62,13 @@ function create()
     echo 'Done' . PHP_EOL .  PHP_EOL;
 
     echo "Creating virtual host config file" . PHP_EOL;
-    if (!file_put_contents(VHOST_FILE_NAME, $vhost_content)) {
-        die("Can't create apache vhost");
-    }
+//    if (!file_put_contents(VHOST_FILE_NAME, $vhost_content)) {
+//        die("Can't create apache vhost");
+//    }
+
+    $vhost_content = addcslashes($vhost_content, '"');
+    echo shell_exec("echo \"$vhost_content\" | sudo tee " . VHOST_FILE_NAME);
+
     echo 'Done' . PHP_EOL .  PHP_EOL;
 
     echo "Enabling website" . PHP_EOL;
@@ -73,11 +83,6 @@ function create()
     echo shell_exec('mysql --login-path=local -e "CREATE DATABASE IF NOT EXISTS ' . DBNAME . ' DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"');
     echo 'Done' . PHP_EOL .  PHP_EOL;
 
-
-    echo "Cloning repo" . PHP_EOL;
-    chdir(VHOST_PATH);
-    echo shell_exec("git clone " . GIT_URL . ' .');
-    echo 'Done' . PHP_EOL .  PHP_EOL;
 
     echo "Install dependencies" . PHP_EOL;
     chdir(COMPOSER_PATH);
