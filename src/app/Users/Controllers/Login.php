@@ -21,8 +21,19 @@ class Login extends Base
         return $this->tpl->render('users::login', []);
     }
 
+    /**
+     * Check sended data from login form
+     */
     public function tryToLogin()
     {
+        //Check token
+
+        $params = $this->request->getQueryParams();
+
+        //validate
+        //set errors back if they are existing (in flash)
+        //login
+        //redirect
 
     }
 

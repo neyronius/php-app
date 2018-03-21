@@ -9,4 +9,6 @@ interface UserInterface
 
 	public function getId() : string;
 
+
+
 }
