@@ -1,8 +1,6 @@
 <?php
 /** @var $this \League\Plates\Template\Template*/
 
-//@todo Replace auth to an adapther
-$auth = DI()->get(\Delight\Auth\Auth::class);
 
 ?>
 <!doctype html>

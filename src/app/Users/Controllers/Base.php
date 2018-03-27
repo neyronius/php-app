@@ -3,7 +3,7 @@
 namespace App\Users\Controllers;
 
 use Aura\Router\RouterContainer;
-use Delight\Auth\Auth;
+use Neyronius\Base\Auth\AuthInterface;
 use League\Plates\Engine;
 
 use Neyronius\Base\Http\ResponseService;
@@ -32,7 +32,7 @@ class Base
 	 * Auth service
 	 *
 	 * @Inject
-	 * @var Auth
+	 * @var AuthInterface
 	 */
 	protected $auth;
 

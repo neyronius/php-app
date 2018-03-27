@@ -17,7 +17,7 @@ class EventsManager
      */
     public function subscribe(string $eventClass, callable $callback)
     {
-        if (!$this->eventStore[$eventClass]) {
+        if (!isset($this->eventStore[$eventClass])) {
             $this->eventStore[$eventClass] = [];
         }
 

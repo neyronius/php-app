@@ -1,7 +1,7 @@
 <?php
 /** @var $this \League\Plates\Template\Template*/
 
-$this->layout('layout', ['title' => $title]);
+$this->layout('layout', ['title' => '']);
 ?>
 
 

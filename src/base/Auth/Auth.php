@@ -24,6 +24,7 @@ class Auth implements AuthInterface {
 
 	public function isLoggedIn(): bool {
 		// TODO: Implement isLoggedIn() method.
+		return false;
 	}
 
 	public function getCurrentUser(): UserInterface {

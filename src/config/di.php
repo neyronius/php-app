@@ -22,12 +22,13 @@ return[
     'NotFoundResponse' => \DI\create(\Zend\Diactoros\Response::class)
                             ->constructor('php://memory', 404),
 
-    \League\Plates\Engine::class => function(){
+    \League\Plates\Engine::class => function(\Neyronius\Base\Auth\AuthInterface $auth){
 
         $engine = new \League\Plates\Engine(SRC_ROOT . '/app/Common/Templates');
 
         $engine->addFolder('users', SRC_ROOT . '/app/Users/Templates', true);
 
+        $engine->addData(['auth' => $auth]);
 
 
         return $engine;
@@ -48,9 +49,7 @@ return[
         return $pdo;
     },
 
-    \Delight\Auth\Auth::class => \DI\create(\Delight\Auth\Auth::class)
-                                        ->constructor(\DI\get(\Neyronius\Base\DB\PDO::class)),
+    \Neyronius\Base\Events\EventsManager::class => DI\create(\Neyronius\Base\Events\EventsManager::class),
 
-
-    \Neyronius\Base\Events\EventsManager::class => DI\create(\Neyronius\Base\Events\EventsManager::class)
+	\Neyronius\Base\Auth\AuthInterface::class => DI\create(\Neyronius\Base\Auth\Auth::class)
 ];
